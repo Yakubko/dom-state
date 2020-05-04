@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Counter</title>
+
+		<script src="../../lib/dom-state.min.js"></script>
+		<script type="application/javascript">
+			"use strict";
+
+			var domState = new DomState();
+			domState.settings(null, { count: 5 });
+
+			domState.addComponent("main", function () {
+				this.watchStore = ["count"];
+				this.onClick = (event) => {
+					this.store.count++;
+					this.component.render();
+				};
+
+				this.render = () => {
+					return this.component.createElement(
+						`<div>
+							<button onclick="{{onClick}}">Click on me</button> <br />
+							Count: ${this.store.count}
+						</div>`,
+						{
+							onClick: this.onClick,
+						}
+					);
+				};
+			});
+
+			document.addEventListener("DOMContentLoaded", domState.run);
+		</script>
+	</head>
+	<body class="bg-dark">
+		<div id="dom-state-root-element">
+			<main></main>
+		</div>
+	</body>
+</html>
